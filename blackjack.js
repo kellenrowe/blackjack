@@ -1,5 +1,6 @@
 const SUITS = ["C", "D", "H", "S"];
 const RANKS_TO_VALUES = {
+  // "a": 1
   "2": 2,
   "3": 3,
   "4": 4,
@@ -57,7 +58,7 @@ function evaluateHand(cards) {
     score += RANKS_TO_VALUES[card[0]];
   }
   if (score > 21) {
-    endHand("Oh no! Your score is a bust.");
+    endHand("Oh no! Your score is a bust."); // ******* stuck here **********
   }
 
   return score;
@@ -105,6 +106,17 @@ function dealerPlay() {
   while (evaluateHand(dealerCards) < 17) {
     drawAndShowDealerCard();
   }
+  // if dealer hand > player hand
+  if (evaluateHand(dealerCards) > evaluateHand(playerCards)) {
+    // dealer wins
+    endHand("Dealer Wins! Player... you suck");
+  } else if (evaluateHand(dealerCards) < evaluateHand(playerCards)) {
+      // player wins
+      endHand('Player Wins!');
+  } else {
+      // else it's a push
+      endHand('Nobody Wins, You\'re both losers.');
+  }
 }
 
 /** Draw card fpr player, add to their hand, and show it. */
@@ -142,6 +154,9 @@ function startGame() {
   playerCards = [];
   drawAndShowPlayerCard();
   drawAndShowPlayerCard();
+  if (evaluateHand(playerCards) === 21) {
+    endHand("You won, but only by luck");
+  }
 }
 
 
